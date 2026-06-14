@@ -23,3 +23,6 @@ jobs:
 
       - run: npx playwright test
         working-directory: Playwright
+
+      - run: npx playwright show-report
+        working-directory: Playwright

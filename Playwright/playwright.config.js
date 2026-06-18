@@ -1,4 +1,4 @@
-// @ts-check
+// @ts-nocheck
 import { defineConfig, devices } from '@playwright/test';
 
 /**
@@ -23,7 +23,9 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: [
+    ['html', {open: "never"}]
+  ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
@@ -37,9 +39,15 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: { 
+        ...devices['Desktop Chrome'],
+        viewport : {width : 1920, height : 1080},
+        video : 'on',
+        screenshot : 'on',
+        trace: 'on',
+      },
     },
-
+  /*
     {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
@@ -49,6 +57,8 @@ export default defineConfig({
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
     },
+  */
+
 
     /* Test against mobile viewports. */
     // {

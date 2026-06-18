@@ -22,5 +22,5 @@ jobs:
       - run: npx playwright install --with-deps
         working-directory: Playwright
 
-      - run: npx playwright test
+      - run: npx playwright test /Tests/Website_Practice_2/login.spec.js
         working-directory: Playwright

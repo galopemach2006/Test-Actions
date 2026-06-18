@@ -8,4 +8,6 @@ test("Login Test: Username - admin, Password - admin123", async ({page}) => {
     await page.waitForTimeout(5000)
 })
 
-test
+test("Login Test", async ({page}) => {
+
+})

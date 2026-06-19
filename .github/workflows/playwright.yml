@@ -4,6 +4,10 @@ on:
   push:
   pull_request:
     branches: [main]
+
+defaults:
+  run:
+    working-directory: Playwright
   
 jobs:
   test:

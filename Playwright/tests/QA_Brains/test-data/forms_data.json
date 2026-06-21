@@ -5,7 +5,7 @@
             "email": "macksgale@yahoo.com",
             "contactNo": "09619557174",
             "date": "2026-05-12",
-            "uploadFiles": "./QA_Brains/test-upload/jack.txt",
+            "uploadFiles": "./tests/QA_Brains/test-upload/test_file.txt",
             "radioColor": "Red",
             "checkboxes": ["Pasta","Pizza"],
             "country": "Andorra"

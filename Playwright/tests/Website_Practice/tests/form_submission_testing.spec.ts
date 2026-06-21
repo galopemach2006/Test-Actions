@@ -1,72 +1,48 @@
 import { test, expect } from "@playwright/test";
 import { forms } from "../page-objects/form_submission";
+import forms_data from "../test-data/forms_data.json"
 
 test.describe("Submission Forms Testing", () => {
-  let f: forms
+  let f: forms  
+  const data = forms_data.completeData
+  const bData = forms_data.blankData
+  const iData = forms_data.invalidData
 
   test.beforeEach(async ({page}) => {
     f = new forms(page)
     await f.navigate();
   })
 
-  test("Complete Information", async ({ page }) => {
-    await f.placeholderInformation(
-      "Mach",
-      "galopemach@gmail.com",
-      "09659637179",
-      "2026-05-12",
-      "./upload/jack.txt",
-    );
-    await f.radioButtonCheck("Red");
-    await f.locatorInformation(["Pasta", "Pizza"], "Andorra");
+  test("Complete Information", async () => {
+    await f.placeholderInformation(data.name, data.email, data.contactNo, data.date, data.uploadFile);
+    await f.radioButtonCheck(data.color);
+    await f.locatorInformation(data.checkbox, data.country);
     await f.completeInformation();
   });
 
-  test("Blank Information", async ({ page }) => {
+  test("Blank Information", async () => {
     await f.submitForm();
     await f.blankInformation();
   });
 
-  test("Email Verification - Invalid Format", async ({ page }) => {
-    await f.placeholderInformation(
-      "Mach",
-      "galopemachgmail.com",
-      "09659637179",
-      "2026-05-12",
-      "./upload/jack.txt",
-    );
-    await f.radioButtonCheck("Red");
-    await f.locatorInformation(["Pasta", "Pizza"], "Andorra");
-    await f.emailInvalidFormat(
-      "Please include an '@' in the email address. 'galopemachgmail.com' is missing an '@'.",
-    );
+  test("Email Verification - Invalid Format", async () => {
+    await f.placeholderInformation(data.name, iData.invalidEmail2, data.contactNo, data.date, data.uploadFile);
+    await f.radioButtonCheck(data.color);
+    await f.locatorInformation(data.checkbox, data.country);
+    await f.emailInvalidFormat(`Please include an '@' in the email address. '${iData.invalidEmail2}' is missing an '@'.`);
   });
 
   test("Email Verification - Blank Email", async () => {
-    await f.placeholderInformation(
-      "Mach",
-      "",
-      "09659637179",
-      "2026-05-12",
-      "./upload/jack.txt",
-    );
-    await f.radioButtonCheck("Red");
-    await f.locatorInformation(["Pasta", "Pizza"], "Andorra");
+    await f.placeholderInformation(data.name, bData.email, data.contactNo, data.date, data.uploadFile);
+    await f.radioButtonCheck(data.color);
+    await f.locatorInformation(data.checkbox, data.country);
     await f.noEmail();
   })
 
   test("Email Verification - Invalid Email", async () => {
-    await f.placeholderInformation(
-      "Mach",
-      "5hjhj453jhjk",
-      "09659637179",
-      "2026-05-12",
-      "./upload/jack.txt",
-    );
-    await f.radioButtonCheck("Red");
-    await f.locatorInformation(["Pasta", "Pizza"], "Andorra");
-    await f.emailInvalidFormat(
-      "Please include an '@' in the email address. '5hjhj453jhjk' is missing an '@'.",
-    );
+    await f.placeholderInformation(data.name, iData.invalidEmail1, data.contactNo, data.date, data.uploadFile);
+    await f.radioButtonCheck(data.color);
+    await f.locatorInformation(data.checkbox, data.country);
+    await f.emailInvalidFormat(`Please include an '@' in the email address. '${iData.invalidEmail1}' is missing an '@'.`);
   });
 });

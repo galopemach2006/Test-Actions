@@ -1,41 +1,48 @@
 import { test, expect } from "@playwright/test";
 import { loginPage } from "../page-objects/login_page";
+import login_data from "../test-data/login_data.json"
 
 test.describe("Testing Login", () => {
   let login: loginPage
 
   test.beforeEach(async ({page}) => {
     login = new loginPage(page)
-    login.navigate()
-  })
+    await page.goto("https://practice.qabrains.com/")
+  })  
 
   test("Both Correct Credentials", async () => {
-    await login.email_password("qa_testers@qabrains.com", "Password123");
-    await login.bothCredentialsTrue();
+    const c = login_data.bothCredentialsCorrect
+    await login.email_password(c.email, c.password);
+    await expect(login.successHeader).toBeVisible()
   });
 
   test("Wrong Email", async () => {
-    await login.email_password("qa_testers@qabrains", "Password123");
-    await login.wrongEmail();
+    const c = login_data.wrongEmail
+    await login.email_password(c.email, c.password);
+    await expect(login.wrongEmailError).toBeVisible()
   });
 
   test("Wrong Password", async () => {
-    await login.email_password("qa_testers@qabrains.com", "Password");
-    await login.wrongPassword();
+    const c = login_data.wrongPassword
+    await login.email_password(c.email, c.password);
+    await expect(login.wrongPasswordError).toBeVisible()
   });
 
   test("Both Wrong Credentials", async () => {
-    await login.email_password("qa_testers@qabrains", "Password");
-    await login.bothCredentialsFalse();
+    const c = login_data.bothWrongCredentials
+    await login.email_password(c.email, c.password);
+    await expect(login.bothCredentialsError).toBeVisible()
   });
 
   test("Blank Email", async () => {
-    await login.email_password("", "Password123");
-    await login.emailBlank();
+    const c = login_data.blankEmail
+    await login.email_password(c.email, c.password);
+    await expect(login.requiredEmail).toBeVisible()
   });
 
   test("Blank Password", async () => {
-    await login.email_password("qa_testers@qabrains.com", "");
-    await login.passwordBlank();
+    const c = login_data.blankPassword
+    await login.email_password(c.email, c.password);
+    await expect(login.requiredPassword).toBeVisible()
   });
 });

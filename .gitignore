@@ -3,3 +3,6 @@ Python Testing/
 lib/
 QA Roadmap
 Selenium Study Guide for QA
+/allure-results/
+/allure-report/
+

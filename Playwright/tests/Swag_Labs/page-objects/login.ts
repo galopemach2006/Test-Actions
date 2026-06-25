@@ -1,4 +1,5 @@
 import {Page, Locator, expect} from "@playwright/test"
+import data from "../test-data/login_data.json"
 
 export interface credentials {
     email: string
@@ -13,9 +14,9 @@ export class Login{
 
     constructor(page: Page) {
         this.page = page
-        this.emailInput = page.locator("input[type='text']")
-        this.passwordInput = page.locator("input[type='password']")
-        this.button = page.locator("input[type='submit']")
+        this.emailInput = page.locator("[data-test='username']")
+        this.passwordInput = page.locator("[data-test='password']")
+        this.button = page.locator("[data-test='login-button']")
     }
 
     async fillLogin(c: credentials) {
@@ -23,4 +24,5 @@ export class Login{
         await this.passwordInput.fill(c.password)
         await this.button.click()
     }
+    
 }

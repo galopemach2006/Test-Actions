@@ -17,6 +17,6 @@
     },
 
     "errorLoginMessages": {
-        "errorMessage1":"Epic sadface: Username and password do not match any user in this service"
+        "invalidUserPass":"Epic sadface: Username and password do not match any user in this service"
     }
 }

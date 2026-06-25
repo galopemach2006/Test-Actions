@@ -6,5 +6,6 @@
 
     "productNameLocator" : ".inventory_item_name", 
     "productDescriptionLocator" : ".inventory_item_desc",
-    "productPriceLocator" : ".inventory_item_price"
+    "productPriceLocator" : ".inventory_item_price",
+    "productImageLocator": ".inventory_item_img"
 }

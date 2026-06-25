@@ -1,19 +1,23 @@
 import {Page, Locator, expect} from "@playwright/test"
 import {Login} from "./login"
 import l from "../test-data/login_data.json"
-import p from "../test-data/product_data.json"
 
 export class products extends Login {
     productNameLocator : Locator
     productDescriptionLocator : Locator
     productPriceLocator : Locator 
-
+    productImageLocator : Locator
+    productButton : Locator
+    addToCartBadge : Locator
 
     constructor(page: Page) {
         super(page)
-        this.productNameLocator = page.locator(p.productNameLocator)
-        this.productDescriptionLocator = page.locator(p.productDescriptionLocator)
-        this.productPriceLocator = page.locator(p.productPriceLocator)
+        this.productNameLocator = page.locator(".inventory_item_name")
+        this.productDescriptionLocator = page.locator(".inventory_item_desc")
+        this.productPriceLocator = page.locator(".inventory_item_price")
+        this.productImageLocator = page.locator(".inventory_item_img")
+        this.productButton = page.locator("button.btn_inventory")
+        this.addToCartBadge = page.locator("[data-test='shopping-cart-badge']")
     }
 
     async productNameVerifier(): Promise<void> {

@@ -15,46 +15,55 @@ test.describe("Swag Labs Login", () => {
     test.afterEach(async () => {
         console.log("Testing Complete")
     })
-        
-    //-------------------Happy Path-------------------------//
-    test("Login 001 - Valid Login", async ({page}) => {
-        await c.fillLogin(credentials.rightCredentials)
-        await expect(page.getByText("Swag Labs")).toBeVisible()
-    })
 
-    //-------------------Edge Cases-------------------------//
-    test("Login 002 - Invalid Login", async ({page}) => {
-        await c.fillLogin(credentials.wrongCredentials)
-        await expect(page.getByText(errorMessages.invalidUserPass)).toBeVisible()
-    })
+    const loginTest = [
+        {
+            name: "Login 001 - Valid Login",
+            credentials: credentials.rightCredentials,
+            text:  "Swag Labs"
+        },
 
-    test("Login 003 - Wrong Username", async ({page}) => {
-        const wrongUsername = {...credentials.rightCredentials, email: credentials.wrongCredentials.email}
-        await c.fillLogin(wrongUsername)
-        await expect(page.getByText(errorMessages.invalidUserPass)).toBeVisible()
-    })
+        {
+            name: "Login 002 - Invalid Login",
+            credentials: credentials.wrongCredentials,
+            text: errorMessages.invalidUserPass
+        },
 
-    test("Login 004 - Wrong Password", async ({page}) => {
-        const wrongPassword = {...credentials.rightCredentials, password: credentials.wrongCredentials.password}
-        await c.fillLogin(wrongPassword)
-        await expect(page.getByText(errorMessages.invalidUserPass)).toBeVisible()
-    })
+        {
+            name: "Login 003 - Wrong Username",
+            credentials: {...credentials.rightCredentials, email: credentials.wrongCredentials.email},
+            text: errorMessages.invalidUserPass
+        },
 
-    test("Login 005 - Blank Credentials", async ({page}) => {
-        await c.fillLogin(credentials.blank)
-        await expect(page.getByText("Epic sadface: Username is required")).toBeVisible()
-    })
+        {
+            name: "Login 004 - Wrong Password",
+            credentials: {...credentials.rightCredentials, password: credentials.wrongCredentials.password},
+            text: errorMessages.invalidUserPass
+        },
 
-    test("Login 006 - Blank Username", async ({page}) => {
-        const blankUsername = {...credentials.rightCredentials, email: credentials.blank.email}
-        await c.fillLogin(blankUsername)
-        await expect(page.getByText("Epic sadface: Username is required")).toBeVisible()
-    })
+        {
+            name: "Login 005 - Blank Credentials",
+            credentials: credentials.blank,
+            text: "Epic sadface: Username is required"
+        },
 
-    test("Login 007 - Blank Password", async ({page}) => {
-        const blankUsername = {...credentials.rightCredentials, password: credentials.blank.password}
-        await c.fillLogin(blankUsername)
-        await expect(page.getByText("Epic sadface: Password is required")).toBeVisible()
-    })
+        {
+            name: "Login 006 - Blank Username",
+            credentials: {...credentials.rightCredentials, email: credentials.blank.email},
+            text: "Epic sadface: Username is required"
+        },
 
+        {
+            name: "Login 007 - Blank Password",
+            credentials: {...credentials.rightCredentials, password: credentials.blank.password},
+            text: "Epic sadface: Password is required"
+        }
+    ]
+
+    for(const login of loginTest) {
+        test(login.name, async ({page}) => {
+            await c.fillLogin(login.credentials)
+            await expect(page.getByText(login.text)).toBeVisible()
+        })
+    }
 })

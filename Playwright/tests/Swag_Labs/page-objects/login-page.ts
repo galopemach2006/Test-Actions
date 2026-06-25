@@ -1,7 +1,7 @@
-import {Page, Locator, expect} from "@playwright/test"
-import Data from "../test-data/login-data.json"
+import {Page, Locator} from "@playwright/test"
+//import Data from "../test-data/login-data.json"
 
-export interface credentials {
+export interface Credentials {
     email: string
     password: string
 }
@@ -19,7 +19,7 @@ export class Login{
         this.button = page.locator("[data-test='login-button']")
     }
 
-    async fillLogin(c: credentials) {
+    async fillLogin(c: Credentials) {
         await this.emailInput.fill(c.email)
         await this.passwordInput.fill(c.password)
         await this.button.click()
